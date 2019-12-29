@@ -4,15 +4,33 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.kellydouglass.tabbarviewpager.TabFragments.BlankFragment;
+import com.kellydouglass.tabbarviewpager.TabFragments.BlankFragment2;
+import com.kellydouglass.tabbarviewpager.TabFragments.BlankFragment3;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    ViewPager viewPager;
+    TabLayout tabLayout;
+
+    BlankFragment mBlankFragment1;
+    BlankFragment2 mBlankFragment2;
+    BlankFragment3 mBlankFragment3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,35 +39,57 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+
+        mBlankFragment1 = new BlankFragment();
+        mBlankFragment2 = new BlankFragment2();
+        mBlankFragment3 = new BlankFragment3();
+
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(myPagerAdapter);
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    class MyPagerAdapter extends FragmentPagerAdapter {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        String[] fragmentNames = {"first", "second", "third"};
+
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        public Fragment getItem(int position) {
+
+            switch (position) {
+                case 0:
+                    return mBlankFragment1;
+                case 1:
+                    return mBlankFragment2;
+                case 2:
+                    return mBlankFragment3;
+            }
+
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentNames.length;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmentNames[position];
+        }
     }
+
+
 }
