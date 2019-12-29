@@ -6,7 +6,7 @@
     android:background="@color/design_default_color_primary"
     tools:context=".TabFragments.BlankFragment3">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
